@@ -1,0 +1,26 @@
+#manually typed out history of commands for assign 1
+
+mkdir CTA200.git
+git init
+git add README.md
+git commit -m "first commit"
+git remote set-url origin "https://yumnaarshad@github.com/yumnaarshad/CTA200.git"
+git remote -v
+git push -u origin master
+vim LICENSE.md
+# copiedMIT license from online into this file
+git add LICENSE.md
+git commit -m "Created LICENSE file"
+cp /home/student03/CTA200H-master/assignment1_2020/* /home/student03/repos/CTA200.git
+vim Makefile
+# try running program
+make
+./xmain
+git add Makefile main.c average.c average average.h average.o
+git commit -m "Linked and compiled code for calculating average of 1,2,3,4"
+git push-f origin master
+vim history 
+#manually wrote out steps for history file
+git add history 
+git commit -m "history file"
+git push  
