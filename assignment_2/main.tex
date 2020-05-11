@@ -1,0 +1,137 @@
+  
+%% \listfiles
+\documentclass[apj]{emulateapj}
+%\documentclass[preprint2,12pt]{emulateapj}
+%% \usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{epsfig}
+\usepackage{amssymb,amsmath}
+\usepackage{array}
+\usepackage{threeparttable}
+
+
+\doublespace
+
+%definitions
+\newcommand{\Msol}{${\rm M_{\sun}}$}
+
+
+%% Editing markup...
+\usepackage{color}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% WARNING: This LaTeX block was generated automatically by authors.py
+% Do not change by hand: your changes will be lost.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% --------------------- Ancillary information ---------------------
+\shortauthors{SURP et al.}
+\shorttitle{my short-title}
+\slugcomment{Draft: \today}
+
+
+\begin{document}
+
+\title{Assignment 2}
+ %% ---------
+ 
+\author{Yumna Arshad}
+%\altaffiltext{1}{CITA, University of Toronto}
+ 
+
+\section{Question 1}
+
+\subsection{Method}
+To solve this question, I first created a grid of points along the x and y axis of the complex plane domain (-2,2) x (-2,2) using nested for-loops. 
+Then, I used a for loop to cycle through each point along the grid and iterate through the series at each position in the complex plane c. 
+Using a while loop I was able to track the iteration number of each diverging point and save that to a list.
+As a result, each point had a corresponding iteration number associated with it; if that iteration number was equal to the given $#$ of required iterations then the point was added to a list associated with the key 'bound' in a dictionary (indicating the point remained bounded throughout all iterations), else the point was added to a list associated with the key 'diverge' in that same dictionary. 
+A bounded point was defined as remaining within the given square domain, i.e absolute value of both the real part and imaginary part of value $z_i$ were less than 2, after all iterations. 
+Finally, I plotted both a normal scatter plot with 2 different colors (one indicating diverging and another indicating bounded points) as well as a color map indicating the iteration number at which each diverging point left the domain. 
+
+\subsection{Analysis of Results}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1.0\columnwidth]{A2Q1_plot1_final.png}
+    \caption{Plot of the bounded points shown in orange and diverging points shown in blue. The domain shown is 4x4 square domain of complex plane centered at 0.}
+    \label{fig:Q1plot1}
+\end{figure}
+
+The results shown in Fig.\ref{fig:Q1plot1} indicate the plot resembles that of a Mandelbrot set which is what we expect from the analysis of the iterated points in the plane.
+The figure appears to be symmetric about the horizontal line y = 0 (x/real axis).
+If we were to zoom into the edges of the image in the plot, we would see that the structure is repeating on smaller and smaller scales indicating that the boundary of this Mandelbrot set is a fractal curve.
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1.0\columnwidth]{A2Q1_plot2_final.png}
+    \caption{Plot of diverging and bounded points using a color map to indicate iteration number at which diverging points become unbounded. The total number of iterations is 100.}
+    \label{fig:Q1plot2}
+\end{figure}
+
+
+The color map equivalent of the plot in Fig.\ref{fig:Q1plot1} is pictured in Fig.\ref{fig:Q1plot2}. The colour bar indicates the iteration number at which each diverging points becomes diverging and leaves the given domain. 
+We see that the majority of diverging points diverge at very small number of iterations ($\approx$ 2 iterations) while the points nearest the edges of the plot require the most iterations to become diverging. 
+The closer you get to the bounded points, the more iterations are required to cause diverging of points. 
+If the number of iterations in code were increased we would expect the edges of the plot to become more finely distinguished in terms of their physical structure and geometry. 
+
+
+
+
+\section{Question 2}
+
+\subsection{Method}
+To do this question I used the solve ivp method in scipy's integrate module to solve a set of 3 ODE's (the SIR model) which model the spread of disease in a population. 
+This involved defining a function that returns the right hand side of the 3 differential equations: $\frac{dS}{dt}$, $\frac{dI}{dt}$ and $\frac{dR}{dt}$.
+Using the initial values, the differential equations were numerically solved and plotted as a function of time for a given value of beta and gamma. 
+For the bonus part: I added a DE to model the death as: $\frac{dD}{dt} = \alpha I(t)$ and changed the equation for I(t) as follows: $\frac{dI}{dt} = \frac{\beta}{N}SI - \gamma I - \alpha I$. 
+Note: $\beta$ = average number of contacts per person/day, $\gamma$ = 1/D where D is $#$ of days an individual is infectious and $\alpha$ = fraction of infected individuals that die.
+
+
+\subsection{Analysis of Results}
+
+In Fig.\ref{fig:Q2plot1a}, Fig.\ref{fig:Q2plot1b} and Fig.\ref{fig:Q2plot1c} 3 plots for 3 different gamma and beta parameters are shown.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\columnwidth]{A2Q2_plot1a.png}
+    \caption{Plot indicating relative populations of: susceptible (S), infected (I) and recovered (R) individuals of a given population using SIR Model of disease spread and numerical integration. The figure shows results for a relatively high period of infectiousness and low contact rate.}
+    \label{fig:Q2plot1a}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\columnwidth]{A2Q2_plot1b.PNG}
+    \caption{Plot indicating relative populations of: susceptible (S), infected (I) and recovered (R) individuals of a given population using SIR Model of disease spread and numerical integration. The figure shows results for a relatively low period of infectiousness and high contact rate.}
+    \label{fig:Q2plot1b}
+\end{figure}
+ 
+\vspace{5mm} %5mm vertical space
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\columnwidth]{A2Q2_plot1c.PNG}
+    \caption{Plot indicating relative populations of: susceptible (S), infected (I) and recovered (R) individuals of a given population using SIR Model of disease spread and numerical integration. The figure shows results for relatively high contact rate and long period of infectiousness contributing to an overall high infection rate.}
+    \label{fig:Q2plot1c}
+\end{figure}
+In the first plot the number of infected people gets to a little over half the total population due to a relatively long period of infectiousness (20 days) but recovery rate is good since there is little contact between individuals. In the second plot the number of infected people only reaches 80-90 despite a higher contact rate because the period of infectiousness is very low (2 days). As a result, it doesn't take long for the disease to die out (only about 40 days). Finally, the 3rd plot shows the greatest spike in infected individuals, reaching a max of approx 900 individuals and a longer recovery rate because both the number of contacts and period of infectiousness are large. As such, it takes the disease almost 200 days to die out from the population.
+
+%\vspace{5mm} %5mm vertical space
+\newpage
+For the bonus part, death is included in the model and the plot for given $\beta, \alpha and \gamma$ parameters is shown in Fig.\ref{fig:Q2plot2}.
+The plot in Fig.\ref{fig:Q2plot2} differs from the other plots in that the total population does not remain the same anymore due to death of infected people. For a contact rate of 1 person per day and a period of infectiousness of 8 days with mortality rate of 0.3 (i.e. 3/10 infected people die) the total population is reduced by about 600 individuals due to the disease with about 400 individuals remaining. 
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\columnwidth]{A2Q2_plot2.png}
+    \caption{Plot indicating relative populations of: susceptible (S), infected (I), recovered (R) and deceased (D) individuals of a given population using SIRD Model of disease spread and numerical integration.}
+    \label{fig:Q2plot2}
+\end{figure}
+
+
+\end{document}
